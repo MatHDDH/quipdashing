@@ -4,10 +4,12 @@ import amymialee.whipdashing.entities.HookEntity;
 import amymialee.whipdashing.items.WhipdashItem;
 import amymialee.whipdashing.util.PlayerHookWrapper;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Quaternion;
@@ -17,12 +19,21 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(HeldItemRenderer.class)
 public abstract class HeldItemRendererMixin {
     private int hookTime = 0;
 
     @Shadow protected abstract void renderArmHoldingItem(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float equipProgress, float swingProgress, Arm arm);
+
+    @Inject(method = "getHandRenderType", at = @At("HEAD"), cancellable = true)
+    private static void getHandRenderType(ClientPlayerEntity player, CallbackInfoReturnable<HeldItemRenderer.HandRenderType> cir) {
+        boolean bl = player.getOffHandStack().getItem() instanceof WhipdashItem;
+        if (bl) {
+            cir.setReturnValue(HeldItemRenderer.HandRenderType.RENDER_BOTH_HANDS);
+        }
+    }
 
     @Inject(method = "renderFirstPersonItem", at = @At("HEAD"), cancellable = true)
     private void renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
