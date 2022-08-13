@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "whipdashing:item/whipdash"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cast": 1
+      },
+      "model": "whipdashing:item/whipdash_cast"
+    },
+    {
+      "predicate": {
+        "light": 1
+      },
+      "model": "whipdashing:item/whipdash_light"
+    },
+    {
+      "predicate": {
+        "cast": 1,
+        "light": 1
+      },
+      "model": "whipdashing:item/whipdash_light_cast"
+    }
+  ]
+}

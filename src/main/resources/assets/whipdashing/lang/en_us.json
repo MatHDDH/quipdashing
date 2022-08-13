@@ -1,0 +1,10 @@
+{
+  "item.whipdashing.whipdash" : "Whipdash",
+  "item.whipdashing.latch" : "Latch",
+  "key.whipdashing.whipdash" : "Use Equipped Whipdash",
+  "category.whipdashing" : "Whipdashing",
+  "whipdashing.subtitles.entity.hook.throw" : "Whipdash Thrown",
+  "whipdashing.subtitles.entity.hook.retrieve" : "Whipdash Recalled",
+  "whipdashing.subtitles.item.whipdash.swap" : "Whipdash Mode Swapped",
+  "whipdashing.subtitles.entity.hook.return" : "Whipdash Returned"
+}
