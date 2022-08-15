@@ -3,6 +3,7 @@ package amymialee.whipdashing.entities;
 import amymialee.whipdashing.Whipdashing;
 import amymialee.whipdashing.items.WhipdashItem;
 import amymialee.whipdashing.registries.WhipEntities;
+import amymialee.whipdashing.util.DashingProjectileWrapper;
 import amymialee.whipdashing.util.PlayerHookWrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -125,8 +126,10 @@ public class HookEntity extends ProjectileEntity {
                         this.getHookedEntity().setVelocity(this.getVelocity());
                     }
                     if (this.distanceTo(player) < 3) {
-                        this.getHookedEntity().setVelocity(0, 0.4, 0);
                         this.getHookedEntity().fallDistance = 0;
+                        if (!(this.getHookedEntity() instanceof DashingProjectileWrapper wrapper && wrapper.betrayOwner(player))) {
+                            this.getHookedEntity().setVelocity(0, 0.4, 0);
+                        }
                         this.remove(true);
                     }
                     if (this.world.isClient() && this.distanceTo(player) < 0.1) {
