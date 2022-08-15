@@ -224,8 +224,16 @@ public class HookEntity extends ProjectileEntity {
     }
 
     private void checkForCollision() {
-        HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
-        this.onCollision(hitResult);
+        Vec3d velocity = this.getVelocity();
+        Vec3d pos = this.getPos();
+        Vec3d target = pos.add(velocity.multiply(2));
+        EntityHitResult entityHitResult = ProjectileUtil.getEntityCollision(world, this, pos, target, this.getBoundingBox().stretch(velocity).expand(2.0), this::canHit);
+        if (entityHitResult != null) {
+            this.onCollision(entityHitResult);
+        } else {
+            HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
+            this.onCollision(hitResult);
+        }
     }
 
     protected boolean canHit(Entity entity) {

@@ -3,7 +3,6 @@ package amymialee.whipdashing.client;
 import amymialee.whipdashing.Whipdashing;
 import amymialee.whipdashing.WhipdashingClient;
 import amymialee.whipdashing.entities.LatchEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -18,7 +17,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
@@ -71,18 +69,11 @@ public class LatchEntityRenderer extends EntityRenderer<LatchEntity> {
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(j));
         if (latchEntity.hookTime > 0) {
             matrixStack.scale(0.65F, 0.65F, 0.65F);
-        } else {
-            PlayerEntity player = MinecraftClient.getInstance().player;
-            if (player != null) {
-                double distance = player.distanceTo(latchEntity);
-                if (distance < 3) {
-                    float modifier = 0.55f;
-                    if (distance > 2.5f) {
-                        modifier *= ((2 * (3 - distance)));
-                    }
-                    matrixStack.scale(1 - modifier, 1 - modifier, 1 - modifier);
-                }
-            }
+        } else if (latchEntity.shrinkTime > 0) {
+            boolean changing = latchEntity.shrinkTime != latchEntity.lastShrink;
+            boolean growing = latchEntity.shrinkTime > latchEntity.lastShrink;
+            float modifier = 1 - (0.45f / 3) * (latchEntity.shrinkTime + (changing ? (growing ? g : -g) : 0));
+            matrixStack.scale(modifier, modifier, modifier);
         }
         this.core.render(matrixStack, vertexConsumer, i, k);
         matrixStack.pop();

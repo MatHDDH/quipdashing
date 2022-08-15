@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 public class LatchEntity extends Entity {
     public int latchAge;
     public int hookTime;
+    public int shrinkTime;
+    public int lastShrink = 0;
 
     public LatchEntity(EntityType<? extends LatchEntity> entityType, World world) {
         super(entityType, world);
@@ -33,6 +35,15 @@ public class LatchEntity extends Entity {
         this.latchAge++;
         if (this.hookTime > 0) {
             hookTime--;
+        }
+        PlayerEntity playerEntity = world.getClosestPlayer(this.getX(), this.getY(), this.getZ(), 3.0, false);
+        this.lastShrink = this.shrinkTime;
+        if (playerEntity != null) {
+            if (this.shrinkTime < 3) {
+                this.shrinkTime++;
+            }
+        } else if (this.shrinkTime > 0) {
+            this.shrinkTime--;
         }
     }
 
