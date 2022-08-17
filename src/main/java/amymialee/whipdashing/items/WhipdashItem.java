@@ -18,13 +18,14 @@ public class WhipdashItem extends Item {
 
     public void useWhip(World world, PlayerEntity user, Hand hand) {
         if (hand == Hand.OFF_HAND && user instanceof PlayerHookWrapper wrapper) {
-            if (wrapper.getHook() == null) {
-                if (!world.isClient) {
-                    world.playSound(null, user.getX(), user.getY(), user.getZ(), Whipdashing.HOOK_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-                    world.spawnEntity(new HookEntity(user, world));
-                }
-                user.incrementStat(Stats.USED.getOrCreateStat(this));
+            if (wrapper.getHook() != null) {
+                wrapper.getHook().discard();
             }
+            if (!world.isClient) {
+                world.playSound(null, user.getX(), user.getY(), user.getZ(), Whipdashing.HOOK_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+                world.spawnEntity(new HookEntity(user, world));
+            }
+            user.incrementStat(Stats.USED.getOrCreateStat(this));
         }
     }
 

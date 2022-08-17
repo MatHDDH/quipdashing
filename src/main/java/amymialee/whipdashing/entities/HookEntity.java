@@ -125,15 +125,41 @@ public class HookEntity extends ProjectileEntity {
                         this.getHookedEntity().setPosition(this.getPos());
                         this.getHookedEntity().setVelocity(this.getVelocity());
                     }
-                    if (this.distanceTo(player) < 3) {
+                    if (this.getHookedEntity() != null && this.distanceTo(player) < 3) {
                         this.getHookedEntity().fallDistance = 0;
-                        if (!(this.getHookedEntity() instanceof DashingProjectileWrapper wrapper && wrapper.betrayOwner(player))) {
+                        if (this.getHookedEntity() instanceof LivingEntity) {
                             this.getHookedEntity().setVelocity(0, 0.4, 0);
+                        } else {
+                            this.getHookedEntity().setVelocity(new Vec3d(x, y, z).normalize().multiply(2));
                         }
                         this.remove(true);
                     }
                     if (this.world.isClient() && this.distanceTo(player) < 0.1) {
                         this.discard();
+                    }
+                    if (this.getHookedEntity() instanceof DashingProjectileWrapper wrapper && wrapper.betrayOwner(player)) {
+                        this.setState(State.RETURNING_REFLECTING);
+                    }
+                }
+                case RETURNING_REFLECTING -> {
+                    if (this.getHookedEntity() instanceof DashingProjectileWrapper wrapper) {
+                        Entity target = wrapper.getHomingTarget();
+                        double x = target.getX() - this.getX();
+                        double y = target.getY() - this.getY();
+                        double z = target.getZ() - this.getZ();
+                        Vec3d vec3d = new Vec3d(x, y, z).normalize().multiply(Math.min(2, this.distanceTo(target)));
+                        this.setVelocity(vec3d);
+                        this.move(MovementType.SELF, this.getVelocity());
+                        if (this.getHookedEntity() != null && !this.getHookedEntity().isRemoved() && this.getHookedEntity().world.getRegistryKey() == this.world.getRegistryKey()) {
+                            this.getHookedEntity().setPosition(this.getPos());
+                            this.getHookedEntity().setVelocity(this.getVelocity());
+                        }
+                        if (this.distanceTo(target) < player.distanceTo(target)) {
+                            this.getHookedEntity().fallDistance = 0;
+                            this.getHookedEntity().setVelocity(new Vec3d(x, y, z).normalize().multiply(2));
+                            this.setState(State.RETURNING_EMPTY);
+                            this.setHookedEntity(null);
+                        }
                     }
                 }
                 case PULLING_OWNER -> {
@@ -179,7 +205,7 @@ public class HookEntity extends ProjectileEntity {
     public void setState(State state) {
         PlayerEntity user = this.getPlayerOwner();
         if (user != null) {
-            if (state == State.RETURNING_EMPTY || state == State.RETURNING_PULLING || state == State.PULLING_OWNER) {
+            if (state == State.RETURNING_EMPTY || state == State.RETURNING_PULLING || state == State.RETURNING_REFLECTING || state == State.PULLING_OWNER) {
                 if (state != State.RETURNING_EMPTY && !user.isOnGround()) {
                     this.world.sendEntityStatus(this, (byte) 123);
                 } else {
@@ -289,7 +315,7 @@ public class HookEntity extends ProjectileEntity {
                 this.world.sendEntityStatus(this, (byte) 122);
             } else if (this.getState() == State.HOOKED_LIGHT_ENTITY) {
                 this.setState(State.RETURNING_PULLING);
-            } else if (this.getState() == State.RETURNING_PULLING || this.getState() == State.PULLING_OWNER) {
+            } else if (this.getState() == State.RETURNING_PULLING || state == State.RETURNING_REFLECTING || this.getState() == State.PULLING_OWNER) {
                 this.setState(State.RETURNING_EMPTY);
                 this.world.sendEntityStatus(this, (byte) 123);
             }
@@ -364,6 +390,7 @@ public class HookEntity extends ProjectileEntity {
         HOOKED_HEAVY_ENTITY,
         RETURNING_EMPTY,
         RETURNING_PULLING,
+        RETURNING_REFLECTING,
         PULLING_OWNER
     }
 }

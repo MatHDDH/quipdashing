@@ -60,7 +60,7 @@ public class HookEntityRenderer extends EntityRenderer<HookEntity> {
             float r;
             if (this.dispatcher.gameOptions != null && this.dispatcher.gameOptions.getPerspective().isFirstPerson() && playerEntity == MinecraftClient.getInstance().player) {
                 double s = 960.0 / (double) this.dispatcher.gameOptions.getFov().getValue();
-                boolean returning = hookEntity.getState() == HookEntity.State.RETURNING_EMPTY || hookEntity.getState() == HookEntity.State.RETURNING_PULLING || hookEntity.getState() == HookEntity.State.PULLING_OWNER;
+                boolean returning = hookEntity.getState() == HookEntity.State.RETURNING_EMPTY || hookEntity.getState() == HookEntity.State.RETURNING_PULLING || hookEntity.getState() == HookEntity.State.RETURNING_REFLECTING || hookEntity.getState() == HookEntity.State.PULLING_OWNER;
                 Vec3d vec3d = this.dispatcher.camera.getProjection().getPosition((float)j * (returning ? 0.3f : 0.15f), -0.1f).add(0, 0.02, 0);
                 vec3d = vec3d.multiply(s);
                 o = MathHelper.lerp(g, playerEntity.prevX, playerEntity.getX()) + vec3d.x;

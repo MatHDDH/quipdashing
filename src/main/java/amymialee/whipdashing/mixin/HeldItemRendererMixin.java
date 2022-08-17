@@ -9,7 +9,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Quaternion;
@@ -57,7 +56,7 @@ public abstract class HeldItemRendererMixin {
                 float swing = 0.06f / 20 * (Math.min(20, hookTime + tickDelta) - 0.03f);
                 if (player instanceof PlayerHookWrapper wrapper && wrapper.getHook() != null) {
                     HookEntity.State state = wrapper.getHook().getState();
-                    if (state == HookEntity.State.RETURNING_EMPTY || state == HookEntity.State.RETURNING_PULLING || state == HookEntity.State.PULLING_OWNER) {
+                    if (state == HookEntity.State.RETURNING_EMPTY || state == HookEntity.State.RETURNING_PULLING || state == HookEntity.State.RETURNING_REFLECTING || state == HookEntity.State.PULLING_OWNER) {
                         swing = 0.01f / 20 * (Math.min(20, hookTime + tickDelta) - 0.03f);
                         matrices.translate(0, -0.5f, 0);
                         matrices.multiply(Quaternion.fromEulerXyzDegrees(new Vec3f(40, 0, 0)));
