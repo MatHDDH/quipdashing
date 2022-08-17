@@ -1,6 +1,8 @@
 {
   "item.whipdashing.whipdash" : "Whipdash",
-  "item.whipdashing.latch" : "Latch",
+  "item.whipdashing.triplatch" : "Trip-Latch",
+  "item.whipdashing.sliplatch" : "Slip-Latch",
+  "entity.whipdashing.latch" : "Latch",
   "key.whipdashing.whipdash" : "Use Equipped Whipdash",
   "category.whipdashing" : "Whipdashing",
   "whipdashing.subtitles.entity.hook.throw" : "Whipdash Thrown",

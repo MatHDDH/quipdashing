@@ -22,8 +22,12 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
 public class LatchEntityRenderer extends EntityRenderer<LatchEntity> {
+    private static final Identifier TEXTURE_INACTIVE = Whipdashing.id("textures/entity/latch_inactive.png");
     private static final Identifier TEXTURE = Whipdashing.id("textures/entity/latch.png");
+    private static final Identifier TEXTURE_SLINGSHOT = Whipdashing.id("textures/entity/latch_slingshot.png");
+    private static final RenderLayer LAYER_INACTIVE = RenderLayer.getEntityCutoutNoCull(TEXTURE_INACTIVE);
     private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(TEXTURE);
+    private static final RenderLayer LAYER_SLINGSHOT = RenderLayer.getEntityCutoutNoCull(TEXTURE_SLINGSHOT);
     private static final float SINE_45_DEGREES = (float) Math.sin(0.7853981633974483);
     private static final String GLASS = "glass";
     private final ModelPart core;
@@ -47,33 +51,53 @@ public class LatchEntityRenderer extends EntityRenderer<LatchEntity> {
 
     public void render(LatchEntity latchEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
+        boolean active = latchEntity.isActive();
         float j = ((float)latchEntity.latchAge + g) * 4.0F;
         if (latchEntity.hookTime > 0) {
             j *= 4;
         }
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
+        VertexConsumer vertexConsumer;
+        if (active) {
+            if (latchEntity.isSlingshot()) {
+                vertexConsumer = vertexConsumerProvider.getBuffer(LAYER_SLINGSHOT);
+            } else {
+                vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
+            }
+        } else {
+            vertexConsumer = vertexConsumerProvider.getBuffer(LAYER_INACTIVE);
+        }
         matrixStack.push();
         matrixStack.scale(2F, 2F, 2F);
         matrixStack.translate(0.0, -0.5, 0.0);
         int k = OverlayTexture.DEFAULT_UV;
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(j));
-        matrixStack.translate(0.0, 1.0f, 0.0);
-        matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 60.0F, true));
+        if (active) {
+            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(j));
+            matrixStack.translate(0.0, 1.0f, 0.0);
+            matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 90.0F, true));
+        } else {
+            matrixStack.translate(0.0, 1.0f, 0.0);
+        }
         this.frame.render(matrixStack, vertexConsumer, i, k);
+        if (active) {
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(j));
+            matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 90.0F, true));
+        }
         matrixStack.scale(0.875F, 0.875F, 0.875F);
-        matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 60.0F, true));
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(j));
         this.frame.render(matrixStack, vertexConsumer, i, k);
+        if (active) {
+            matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(j));
+            matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 90.0F, true));
+        }
         matrixStack.scale(0.875F, 0.875F, 0.875F);
-        matrixStack.multiply(new Quaternion(new Vec3f(SINE_45_DEGREES, 0.0F, SINE_45_DEGREES), 60.0F, true));
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(j));
-        if (latchEntity.hookTime > 0) {
-            matrixStack.scale(0.65F, 0.65F, 0.65F);
-        } else if (latchEntity.shrinkTime > 0) {
-            boolean changing = latchEntity.shrinkTime != latchEntity.lastShrink;
-            boolean growing = latchEntity.shrinkTime > latchEntity.lastShrink;
-            float modifier = 1 - (0.45f / 3) * (latchEntity.shrinkTime + (changing ? (growing ? g : -g) : 0));
-            matrixStack.scale(modifier, modifier, modifier);
+        if (active) {
+            if (latchEntity.hookTime > 0) {
+                matrixStack.scale(0.65F, 0.65F, 0.65F);
+            } else if (latchEntity.shrinkTime > 0) {
+                boolean changing = latchEntity.shrinkTime != latchEntity.lastShrink;
+                boolean growing = latchEntity.shrinkTime > latchEntity.lastShrink;
+                float modifier = 1 - (0.45f / 3) * (latchEntity.shrinkTime + (changing ? (growing ? g : -g) : 0));
+                matrixStack.scale(modifier, modifier, modifier);
+            }
         }
         this.core.render(matrixStack, vertexConsumer, i, k);
         matrixStack.pop();
@@ -81,7 +105,15 @@ public class LatchEntityRenderer extends EntityRenderer<LatchEntity> {
         super.render(latchEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 
-    public Identifier getTexture(LatchEntity endCrystalEntity) {
-        return TEXTURE;
+    public Identifier getTexture(LatchEntity latch) {
+        if (latch.isActive()) {
+            if (latch.isSlingshot()) {
+                return TEXTURE_SLINGSHOT;
+            } else {
+                return TEXTURE;
+            }
+        } else {
+            return TEXTURE_INACTIVE;
+        }
     }
 }

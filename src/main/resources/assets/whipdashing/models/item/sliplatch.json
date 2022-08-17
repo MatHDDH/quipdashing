@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "whipdashing:item/latch"
+    "layer0": "whipdashing:item/sliplatch"
   }
 }

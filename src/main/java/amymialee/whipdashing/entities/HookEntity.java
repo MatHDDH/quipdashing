@@ -151,7 +151,15 @@ public class HookEntity extends ProjectileEntity {
                         player.fallDistance = 0;
                         this.remove(true);
                         if (this.world.isClient()) {
-                            player.setVelocity(0, 0.2, 0);
+                            if (this.getHookedEntity() instanceof LatchEntity latch) {
+                                if (latch.isSlingshot()) {
+                                    player.setVelocity(player.getVelocity().multiply(3f));
+                                } else {
+                                    player.setVelocity(0, 0.2, 0);
+                                }
+                            } else {
+                                player.setVelocity(0, 0.2, 0);
+                            }
                             this.discard();
                         }
                     }
@@ -250,6 +258,10 @@ public class HookEntity extends ProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         if (!this.world.isClient) {
+            Entity entity = entityHitResult.getEntity();
+            if (entity instanceof LatchEntity latch && !latch.isActive()) {
+                return;
+            }
             this.updateHookedEntityId(entityHitResult.getEntity());
         }
     }

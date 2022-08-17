@@ -3,10 +3,14 @@ package amymialee.whipdashing.items;
 import amymialee.whipdashing.entities.LatchEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -15,8 +19,11 @@ import net.minecraft.world.event.GameEvent;
 import java.util.List;
 
 public class LatchItem extends Item {
-    public LatchItem(FabricItemSettings settings) {
+    private final boolean slingshot;
+
+    public LatchItem(boolean slingshot, FabricItemSettings settings) {
         super(settings);
+        this.slingshot = slingshot;
     }
 
     public ActionResult useOnBlock(ItemUsageContext context) {
@@ -35,6 +42,7 @@ public class LatchItem extends Item {
             } else {
                 if (world instanceof ServerWorld) {
                     LatchEntity latchEntity = new LatchEntity(world, d + 0.5, e - 0.5, f + 0.5);
+                    latchEntity.getDataTracker().set(LatchEntity.LATCH_STATUS, slingshot ? 3 : 1);
                     world.spawnEntity(latchEntity);
                     world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos2);
                 }

@@ -12,7 +12,8 @@ import net.minecraft.util.registry.Registry;
 @SuppressWarnings("unused")
 public class WhipItems {
     public static final Item WHIPDASH = registerItem("whipdash", new WhipdashItem(new FabricItemSettings().maxCount(1).rarity(Rarity.EPIC).group(ItemGroup.TOOLS)));
-    public static final Item LATCH = registerItem("latch", new LatchItem(new FabricItemSettings().rarity(Rarity.UNCOMMON).group(ItemGroup.TOOLS)));
+    public static final Item TRIPLATCH = registerItem("triplatch", new LatchItem(false, new FabricItemSettings().rarity(Rarity.UNCOMMON).group(ItemGroup.TOOLS)));
+    public static final Item SLIPLATCH = registerItem("sliplatch", new LatchItem(true, new FabricItemSettings().rarity(Rarity.UNCOMMON).group(ItemGroup.TOOLS)));
 
     public static void init() {}
 

@@ -24,8 +24,7 @@ import org.lwjgl.glfw.GLFW;
 @Environment(EnvType.CLIENT)
 public class WhipdashingClient implements ClientModInitializer {
     public static final EntityModelLayer LATCH = new EntityModelLayer(Whipdashing.id("latch"), "main");
-    private static final KeyBinding whipdashKeybinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.%s.whipdash".formatted(Whipdashing.MOD_ID),
-            InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.%s".formatted(Whipdashing.MOD_ID)));
+    private static final KeyBinding whipdashKeybinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.%s.whipdash".formatted(Whipdashing.MOD_ID), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.%s".formatted(Whipdashing.MOD_ID)));
     private static boolean active = false;
 
     @Override
