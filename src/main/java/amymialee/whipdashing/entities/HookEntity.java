@@ -21,7 +21,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
@@ -79,15 +78,28 @@ public class HookEntity extends ProjectileEntity {
                 case FLYING -> {
                     this.checkForCollision();
                     this.move(MovementType.SELF, this.getVelocity());
-                    if (this.onGround || this.horizontalCollision || this.squaredDistanceTo(player) > 9192.0) {
+                    if (this.onGround || this.horizontalCollision) {
                         this.setState(State.RETURNING_EMPTY);
                     }
                     if (this.getHookedEntity() != null) {
                         if (this.isHeavy(this.getHookedEntity(), player)) {
                             this.setState(State.HOOKED_HEAVY_ENTITY);
+                        } else if (this.getHookedEntity() instanceof DashingProjectileWrapper) {
+                            this.setState(State.PUSHING_PROJECTILE);
                         } else {
                             this.setState(State.HOOKED_LIGHT_ENTITY);
                         }
+                    }
+                }
+                case PUSHING_PROJECTILE -> {
+                    this.move(MovementType.SELF, this.getVelocity());
+                    if (this.getHookedEntity() != null && !this.getHookedEntity().isRemoved() && this.getHookedEntity().world.getRegistryKey() == this.world.getRegistryKey()) {
+                        this.getHookedEntity().setPosition(this.getPos());
+                        this.getHookedEntity().setVelocity(this.getVelocity());
+                    }
+                    if (this.onGround || this.horizontalCollision) {
+                        this.setState(State.RETURNING_EMPTY);
+                        this.setHookedEntity(null);
                     }
                 }
                 case HOOKED_HEAVY_ENTITY, HOOKED_LIGHT_ENTITY -> {
@@ -283,17 +295,13 @@ public class HookEntity extends ProjectileEntity {
 
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (!this.world.isClient) {
+        if (!this.world.isClient && this.getHookedEntity() == null) {
             Entity entity = entityHitResult.getEntity();
             if (entity instanceof LatchEntity latch && !latch.isActive()) {
                 return;
             }
             this.updateHookedEntityId(entityHitResult.getEntity());
         }
-    }
-
-    protected void onBlockHit(BlockHitResult blockHitResult) {
-        super.onBlockHit(blockHitResult);
     }
 
     private void updateHookedEntityId(@Nullable Entity entity) {
@@ -313,7 +321,7 @@ public class HookEntity extends ProjectileEntity {
             } else if (this.getState() == State.HOOKED_HEAVY_ENTITY) {
                 this.setState(State.PULLING_OWNER);
                 this.world.sendEntityStatus(this, (byte) 122);
-            } else if (this.getState() == State.HOOKED_LIGHT_ENTITY) {
+            } else if (this.getState() == State.HOOKED_LIGHT_ENTITY || this.getState() == State.PUSHING_PROJECTILE) {
                 this.setState(State.RETURNING_PULLING);
             } else if (this.getState() == State.RETURNING_PULLING || state == State.RETURNING_REFLECTING || this.getState() == State.PULLING_OWNER) {
                 this.setState(State.RETURNING_EMPTY);
@@ -386,6 +394,7 @@ public class HookEntity extends ProjectileEntity {
 
     public enum State {
         FLYING,
+        PUSHING_PROJECTILE,
         HOOKED_LIGHT_ENTITY,
         HOOKED_HEAVY_ENTITY,
         RETURNING_EMPTY,

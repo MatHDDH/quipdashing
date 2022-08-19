@@ -43,7 +43,7 @@ public abstract class ProjectileEntityMixin extends Entity implements DashingPro
 
     @Override
     public boolean betrayOwner(Entity accomplice) {
-        if (accomplice != this.getOwner()) {
+        if (this.getOwner() != null && accomplice != this.getOwner()) {
             this.setHomingTarget(this.getOwner());
             this.setOwner(accomplice);
             return true;
