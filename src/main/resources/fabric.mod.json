@@ -4,9 +4,14 @@
   "version": "${version}",
   "accessWidener" : "whipdashing.accesswidener",
   "name": "Whipdashing",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "A Powerful Mobility Tool!",
+  "authors": [
+    "AmyMialee"
+  ],
+  "contact": {
+    "homepage": "https://github.com/AmyMialeeMods/whipdashing",
+    "issues": "https://github.com/AmyMialeeMods/whipdashing/issues"
+  },
   "license": "All-Rights-Reserved",
   "icon": "assets/whipdashing/icon.png",
   "environment": "*",
@@ -23,5 +28,12 @@
   ],
   "depends": {
     "fabric": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "http://discord.amymialee.xyz/"
+      }
+    }
   }
 }
