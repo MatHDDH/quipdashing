@@ -75,10 +75,6 @@ public class LatchEntity extends Entity {
         return Entity.MoveEffect.NONE;
     }
 
-    public boolean canHit() {
-        return true;
-    }
-
     public boolean damage(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;

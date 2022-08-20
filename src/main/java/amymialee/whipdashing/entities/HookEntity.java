@@ -154,7 +154,7 @@ public class HookEntity extends ProjectileEntity {
                     }
                 }
                 case RETURNING_REFLECTING -> {
-                    if (this.getHookedEntity() instanceof DashingProjectileWrapper wrapper) {
+                    if (this.getHookedEntity() instanceof DashingProjectileWrapper wrapper && wrapper.getHomingTarget() != null) {
                         Entity target = wrapper.getHomingTarget();
                         double x = target.getX() - this.getX();
                         double y = target.getY() - this.getY();
@@ -172,6 +172,8 @@ public class HookEntity extends ProjectileEntity {
                             this.setState(State.RETURNING_EMPTY);
                             this.setHookedEntity(null);
                         }
+                    } else {
+                        this.setState(State.RETURNING_PULLING);
                     }
                 }
                 case PULLING_OWNER -> {

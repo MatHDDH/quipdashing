@@ -2,6 +2,7 @@ package amymialee.whipdashing.mixin;
 
 import amymialee.whipdashing.Whipdashing;
 import amymialee.whipdashing.entities.HookEntity;
+import amymialee.whipdashing.util.ClientUtil;
 import amymialee.whipdashing.util.PlayerHookWrapper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -43,10 +44,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerHo
                 this.jump();
                 float f = this.getYaw() * 0.017453292F;
                 this.setVelocity(this.getVelocity().add(-MathHelper.sin(f), 0.0, MathHelper.cos(f)));
-                ClientPlayNetworking.send(Whipdashing.whipdashJump, PacketByteBufs.empty());
-                hook.discard();
+                if (world.isClient()) {
+                    ClientUtil.whipJump();
+                }
+                this.hook.discard();
                 this.setHook(null);
-                world.playSound(null, this.getX(), this.getY(), this.getZ(), Whipdashing.HOOK_RETURN, SoundCategory.PLAYERS, 0.6f, 4f);
+                this.world.playSound(null, this.getX(), this.getY(), this.getZ(), Whipdashing.HOOK_RETURN, SoundCategory.PLAYERS, 0.6f, 4f);
                 this.fallDistance = 0;
             }
         }
