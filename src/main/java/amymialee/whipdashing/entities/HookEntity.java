@@ -193,7 +193,7 @@ public class HookEntity extends ProjectileEntity {
                         if (this.world.isClient()) {
                             if (this.getHookedEntity() instanceof LatchEntity latch) {
                                 if (latch.isSlingshot()) {
-                                    player.setVelocity(player.getVelocity().multiply(3f));
+                                    player.setVelocity(new Vec3d(x, y, z).normalize().multiply(2.25f));
                                 } else {
                                     player.setVelocity(0, 0.2, 0);
                                 }
