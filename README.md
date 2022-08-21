@@ -1,4 +1,6 @@
 # Whipdashing
+<img src="https://raw.githubusercontent.com/AmyMialeeMods/whipdashing/main/assets/ModFest_Singularity_Banner.png" width=300 alt="Made for ModFest Singularity">
+
 Whipdashing is a small mod which adds a new mobility tool, the Whipdash.  
 This tool when equipped in your off-hand slot allows you to shoot a hook out which can be used to pull yourself towards heavy entities, or pull light entities towards yourself.  
 You can also use the swap offhand key to have it pull you towards all entities, even projectiles.  
