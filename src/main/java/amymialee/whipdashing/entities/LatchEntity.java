@@ -1,6 +1,7 @@
 package amymialee.whipdashing.entities;
 
 import amymialee.whipdashing.items.LatchItem;
+import amymialee.whipdashing.items.WhipdashItem;
 import amymialee.whipdashing.registries.WhipEntities;
 import amymialee.whipdashing.registries.WhipItems;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -75,24 +77,31 @@ public class LatchEntity extends Entity {
         return Entity.MoveEffect.NONE;
     }
 
+    public boolean canHit() {
+        return true;
+    }
+
     public boolean damage(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
             if (!this.isRemoved() && !this.world.isClient) {
-                if (source.getAttacker() instanceof PlayerEntity player && player.getMainHandStack().getItem() instanceof LatchItem) {
-                    ItemEntity itemEntity;
-                    if (isSlingshot()) {
-                        itemEntity = this.dropItem(WhipItems.SLIPLATCH);
-                    } else {
-                        itemEntity = this.dropItem(WhipItems.TRIPLATCH);
+                if (source.getAttacker() instanceof PlayerEntity player) {
+                    Item heldStack = player.getMainHandStack().getItem();
+                    if (heldStack instanceof LatchItem || heldStack instanceof WhipdashItem) {
+                        ItemEntity itemEntity;
+                        if (isSlingshot()) {
+                            itemEntity = this.dropItem(WhipItems.SLIPLATCH, 1);
+                        } else {
+                            itemEntity = this.dropItem(WhipItems.TRIPLATCH, 1);
+                        }
+                        if (itemEntity != null) {
+                            itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
+                            itemEntity.setPickupDelay(0);
+                        }
+                        this.discard();
+                        return true;
                     }
-                    if (itemEntity != null) {
-                        itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
-                        itemEntity.setPickupDelay(0);
-                    }
-                    this.discard();
-                    return true;
                 }
             }
         }
