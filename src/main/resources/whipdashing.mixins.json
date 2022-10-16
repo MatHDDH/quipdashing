@@ -4,6 +4,7 @@
   "package": "amymialee.whipdashing.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "PersistentProjectileEntityMixin",
     "PlayerEntityMixin",
     "ProjectileEntityMixin",
     "ServerPlayNetworkHandlerMixin"

@@ -4,6 +4,7 @@ import amymialee.whipdashing.Whipdashing;
 import amymialee.whipdashing.items.WhipdashItem;
 import amymialee.whipdashing.registries.WhipEntities;
 import amymialee.whipdashing.util.DashingProjectileWrapper;
+import amymialee.whipdashing.util.PersistentGroundWrapper;
 import amymialee.whipdashing.util.PlayerHookWrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -84,7 +85,7 @@ public class HookEntity extends ProjectileEntity {
                     if (this.getHookedEntity() != null) {
                         if (this.isHeavy(this.getHookedEntity(), player)) {
                             this.setState(State.HOOKED_HEAVY_ENTITY);
-                        } else if (this.getHookedEntity() instanceof DashingProjectileWrapper) {
+                        } else if (this.getHookedEntity() instanceof DashingProjectileWrapper && !(this.getHookedEntity() instanceof PersistentGroundWrapper ground && ground.isInGround())) {
                             this.setState(State.PUSHING_PROJECTILE);
                         } else {
                             this.setState(State.HOOKED_LIGHT_ENTITY);
