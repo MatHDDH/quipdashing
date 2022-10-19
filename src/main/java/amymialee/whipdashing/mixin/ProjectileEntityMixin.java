@@ -19,9 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ProjectileEntity.class)
 public abstract class ProjectileEntityMixin extends Entity implements DashingProjectileWrapper {
     @Shadow public abstract @Nullable Entity getOwner();
-
     @Shadow public abstract void setOwner(@Nullable Entity entity);
-
     @Shadow public abstract void setVelocity(double x, double y, double z, float speed, float divergence);
 
     public ProjectileEntityMixin(EntityType<?> type, World world) {

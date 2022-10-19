@@ -19,6 +19,7 @@ import net.minecraft.world.GameMode;
 public class Whipdashing implements ModInitializer {
     public static final String MOD_ID = "whipdashing";
     public static final TagKey<EntityType<?>> HEAVY_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, id("heavy_entities"));
+    public static final TagKey<EntityType<?>> IGNORED_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, id("ignored_entities"));
     public static final Identifier whipdashUsage = id("whipdash");
     public static final Identifier whipdashRetract = id("whipdash_retract");
     public static final Identifier whipdashJump = id("whipdash_jump");

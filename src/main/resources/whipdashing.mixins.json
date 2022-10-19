@@ -7,9 +7,11 @@
     "PersistentProjectileEntityMixin",
     "PlayerEntityMixin",
     "ProjectileEntityMixin",
+    "ServerPlayerInteractionManagerMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
+    "ClientPlayerInteractionManagerMixin",
     "HeldItemRendererMixin",
     "PlayerEntityRendererMixin",
     "PlayerHeldItemFeatureRendererMixin"

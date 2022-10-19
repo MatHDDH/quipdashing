@@ -300,7 +300,7 @@ public class HookEntity extends ProjectileEntity {
         super.onEntityHit(entityHitResult);
         if (!this.world.isClient && this.getHookedEntity() == null) {
             Entity entity = entityHitResult.getEntity();
-            if (entity instanceof LatchEntity latch && !latch.isActive()) {
+            if ((entity instanceof LatchEntity latch && !latch.isActive()) || entity.getType().isIn(Whipdashing.IGNORED_ENTITIES) || entity.getScoreboardTags().contains("wd-ignored")) {
                 return;
             }
             this.updateHookedEntityId(entityHitResult.getEntity());
@@ -336,7 +336,7 @@ public class HookEntity extends ProjectileEntity {
     public boolean isHeavy(Entity entity, LivingEntity owner) {
         ItemStack dash = owner.getOffHandStack();
         if (dash.getItem() instanceof WhipdashItem && dash.getOrCreateNbt().getBoolean("wd:light")) return true;
-        return entity.getType().isIn(Whipdashing.HEAVY_ENTITIES) || entity.getType().getTrackTickInterval() == Integer.MAX_VALUE || ((this.getHookedEntity() instanceof LivingEntity living && living.getMaxHealth() > owner.getMaxHealth() * 1.5f));
+        return entity.getType().isIn(Whipdashing.HEAVY_ENTITIES) || entity.getScoreboardTags().contains("wd-heavy") || entity.getType().getTrackTickInterval() == Integer.MAX_VALUE || ((this.getHookedEntity() instanceof LivingEntity living && living.getMaxHealth() > owner.getMaxHealth() * 1.5f));
     }
 
     protected MoveEffect getMoveEffect() {

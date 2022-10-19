@@ -20,8 +20,8 @@ public class ServerPlayNetworkHandlerMixin {
 
     @Inject(method = "onPlayerAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;"), cancellable = true)
     public void onPlayerAction(PlayerActionC2SPacket packet, CallbackInfo ci) {
-        ItemStack itemStack = this.player.getStackInHand(Hand.OFF_HAND);
-        if (itemStack.getItem() instanceof WhipdashItem) {
+        ItemStack itemStack = this.player.getOffHandStack();
+        if (itemStack.getItem() instanceof WhipdashItem && !this.player.isSneaking()) {
             itemStack.getOrCreateNbt().putBoolean("wd:light", !itemStack.getOrCreateNbt().getBoolean("wd:light"));
             player.world.playSound(null, player.getX(), player.getY(), player.getZ(), Whipdashing.WHIPDASH_SWAP, SoundCategory.PLAYERS, 0.1f, 4f);
             ci.cancel();
