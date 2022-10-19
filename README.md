@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "amymialee:whipdashing:1.0.3+1.19.x"
+	modImplementation "amymialee:whipdashing:1.0.4+1.19.x"
 }
 ```
 

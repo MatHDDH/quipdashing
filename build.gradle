@@ -20,7 +20,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation("com.github.LlamaLad7:MixinExtras:0.1.0-rc5")
+    implementation include ("com.github.LlamaLad7:MixinExtras:0.1.0-rc5")
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.0-rc5")
 }
 
