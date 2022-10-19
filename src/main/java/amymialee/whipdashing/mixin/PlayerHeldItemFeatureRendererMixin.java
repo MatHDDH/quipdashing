@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerHeldItemFeatureRenderer.class)
 public class PlayerHeldItemFeatureRendererMixin {
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
-    protected void renderItem(LivingEntity entity, ItemStack stack, ModelTransformation.Mode transformationMode, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+    protected void Whipdashing$DontRender(LivingEntity entity, ItemStack stack, ModelTransformation.Mode transformationMode, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (entity.getMainArm() != arm && entity instanceof PlayerEntity player && player.getOffHandStack().getItem() instanceof WhipdashItem) {
             ci.cancel();
         }

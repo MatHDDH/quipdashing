@@ -21,6 +21,9 @@
     ],
     "main": [
       "amymialee.whipdashing.Whipdashing"
+    ],
+    "preLaunch": [
+      "amymialee.whipdashing.WhipdashingPreLaunch"
     ]
   },
   "mixins": [

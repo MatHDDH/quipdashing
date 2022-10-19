@@ -4,8 +4,6 @@ import amymialee.whipdashing.Whipdashing;
 import amymialee.whipdashing.entities.HookEntity;
 import amymialee.whipdashing.util.ClientUtil;
 import amymialee.whipdashing.util.PlayerHookWrapper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,7 +36,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerHo
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    public void tickMovement(CallbackInfo ci) {
+    public void Whipdashing$PullOwner(CallbackInfo ci) {
         if (this.hook != null && this.hook.getState() == HookEntity.State.PULLING_OWNER) {
             if (this.jumping) {
                 this.jump();

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("RETURN"), cancellable = true)
-    private static void PeculiarPieces$ArmPosing(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+    private static void Whipdashing$ArmPosing(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         if (hand == Hand.OFF_HAND && player.getOffHandStack().getItem() instanceof WhipdashItem) {
             cir.setReturnValue(BipedEntityModel.ArmPose.EMPTY);
         }
