@@ -31,18 +31,18 @@ public class HookEntityRenderer extends EntityRenderer<HookEntity> {
     }
 
     public void render(HookEntity hookEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        PlayerEntity playerEntity = hookEntity.getPlayerOwner();
+        var playerEntity = hookEntity.getPlayerOwner();
         if (playerEntity != null) {
             matrixStack.push();
             matrixStack.push();
             matrixStack.scale(0.5F, 0.5F, 0.5F);
             matrixStack.multiply(this.dispatcher.getRotation());
             matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
-            MatrixStack.Entry entry = matrixStack.peek();
-            Matrix4f matrix4f = entry.getPositionMatrix();
-            Matrix3f matrix3f = entry.getNormalMatrix();
+            var entry = matrixStack.peek();
+            var matrix4f = entry.getPositionMatrix();
+            var matrix3f = entry.getNormalMatrix();
             VertexConsumer vertexConsumer;
-            ItemStack whip = playerEntity.getOffHandStack();
+            var whip = playerEntity.getOffHandStack();
             if (whip.getNbt() != null && whip.getNbt().getBoolean("wd:light")) {
                 vertexConsumer = vertexConsumerProvider.getBuffer(LAYER_LIGHT);
             } else {
@@ -53,39 +53,39 @@ public class HookEntityRenderer extends EntityRenderer<HookEntity> {
             vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0F, 1, 1, 0);
             vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0F, 1, 0, 0);
             matrixStack.pop();
-            int j = playerEntity.getMainArm() == Arm.RIGHT ? -1 : 1;
+            var j = playerEntity.getMainArm() == Arm.RIGHT ? -1 : 1;
             double o;
             double p;
             double q;
             float r;
             if (this.dispatcher.gameOptions != null && this.dispatcher.gameOptions.getPerspective().isFirstPerson() && playerEntity == MinecraftClient.getInstance().player) {
-                double s = 960.0 / (double) this.dispatcher.gameOptions.getFov().getValue();
-                boolean returning = hookEntity.getState() == HookEntity.State.RETURNING_EMPTY || hookEntity.getState() == HookEntity.State.RETURNING_PULLING || hookEntity.getState() == HookEntity.State.RETURNING_REFLECTING || hookEntity.getState() == HookEntity.State.PULLING_OWNER;
-                Vec3d vec3d = this.dispatcher.camera.getProjection().getPosition((float)j * (returning ? 0.3f : 0.15f), -0.1f).add(0, 0.02, 0);
+                var s = 960.0 / (double) this.dispatcher.gameOptions.getFov().getValue();
+                var returning = hookEntity.getState() == HookEntity.State.RETURNING_EMPTY || hookEntity.getState() == HookEntity.State.RETURNING_PULLING || hookEntity.getState() == HookEntity.State.RETURNING_REFLECTING || hookEntity.getState() == HookEntity.State.PULLING_OWNER;
+                var vec3d = this.dispatcher.camera.getProjection().getPosition((float)j * (returning ? 0.3f : 0.15f), -0.1f).add(0, 0.02, 0);
                 vec3d = vec3d.multiply(s);
                 o = MathHelper.lerp(g, playerEntity.prevX, playerEntity.getX()) + vec3d.x;
                 p = MathHelper.lerp(g, playerEntity.prevY, playerEntity.getY()) + vec3d.y;
                 q = MathHelper.lerp(g, playerEntity.prevZ, playerEntity.getZ()) + vec3d.z;
                 r = 1.65f;
             } else {
-                float l = MathHelper.lerp(g, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * 0.017453292F;
+                var l = MathHelper.lerp(g, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * 0.017453292F;
                 double d = MathHelper.sin(l);
                 double e = MathHelper.cos(l);
-                double m = (double) j * 0.35;
+                var m = (double) j * 0.35;
                 o = MathHelper.lerp(g, playerEntity.prevX, playerEntity.getX()) - e * m;
                 p = playerEntity.prevY + (double)playerEntity.getStandingEyeHeight() + (playerEntity.getY() - playerEntity.prevY) * (double)g - 0.65;
                 q = MathHelper.lerp(g, playerEntity.prevZ, playerEntity.getZ()) - d * m;
                 r = playerEntity.isInSneakingPose() ? -0.1875F : 0.0F;
             }
-            double s = MathHelper.lerp(g, hookEntity.prevX, hookEntity.getX());
-            double t = MathHelper.lerp(g, hookEntity.prevY, hookEntity.getY()) + 0.25;
-            double u = MathHelper.lerp(g, hookEntity.prevZ, hookEntity.getZ());
-            float v = (float)(o - s);
-            float w = (float)(p - t) + r;
-            float x = (float)(q - u);
-            VertexConsumer vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip());
-            MatrixStack.Entry entry2 = matrixStack.peek();
-            for(int z = 0; z <= 16; ++z) {
+            var s = MathHelper.lerp(g, hookEntity.prevX, hookEntity.getX());
+            var t = MathHelper.lerp(g, hookEntity.prevY, hookEntity.getY()) + 0.25;
+            var u = MathHelper.lerp(g, hookEntity.prevZ, hookEntity.getZ());
+            var v = (float)(o - s);
+            var w = (float)(p - t) + r;
+            var x = (float)(q - u);
+            var vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip());
+            var entry2 = matrixStack.peek();
+            for(var z = 0; z <= 16; ++z) {
                 renderFishingLine(v, w, x, vertexConsumer2, entry2, percentage(z, 16), percentage(z + 1, 16));
             }
             matrixStack.pop();
@@ -102,13 +102,13 @@ public class HookEntityRenderer extends EntityRenderer<HookEntity> {
     }
 
     private static void renderFishingLine(float x, float y, float z, VertexConsumer buffer, MatrixStack.Entry matrices, float segmentStart, float segmentEnd) {
-        float f = x * segmentStart;
-        float g = y * segmentStart;
-        float h = z * segmentStart;
-        float i = x * segmentEnd - f;
-        float j = y * segmentEnd - g;
-        float k = z * segmentEnd - h;
-        float l = MathHelper.sqrt(i * i + j * j + k * k);
+        var f = x * segmentStart;
+        var g = y * segmentStart;
+        var h = z * segmentStart;
+        var i = x * segmentEnd - f;
+        var j = y * segmentEnd - g;
+        var k = z * segmentEnd - h;
+        var l = MathHelper.sqrt(i * i + j * j + k * k);
         i /= l;
         j /= l;
         k /= l;
@@ -116,9 +116,9 @@ public class HookEntityRenderer extends EntityRenderer<HookEntity> {
     }
 
     public Identifier getTexture(HookEntity hookEntity) {
-        PlayerEntity player = hookEntity.getPlayerOwner();
+        var player = hookEntity.getPlayerOwner();
         if (player != null) {
-            ItemStack whip = player.getOffHandStack();
+            var whip = player.getOffHandStack();
             if (whip.getNbt() != null && whip.getNbt().getBoolean("wd:light")) {
                 return HOOK_LIGHT;
             }
