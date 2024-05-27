@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "amymialee.whipdashing.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PersistentProjectileEntityMixin",
+    "PlayerEntityMixin",
+    "ProjectileEntityMixin",
+    "ServerPlayerInteractionManagerMixin",
+    "ServerPlayNetworkHandlerMixin"
+  ],
+  "client": [
+    "ClientPlayerInteractionManagerMixin",
+    "HeldItemRendererMixin",
+    "PlayerEntityRendererMixin",
+    "PlayerHeldItemFeatureRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

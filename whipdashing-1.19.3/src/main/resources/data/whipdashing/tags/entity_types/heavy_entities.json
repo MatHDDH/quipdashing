@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:player",
+    {
+      "id": "taterzens:npc",
+      "required": false
+    },
+    "minecraft:ender_dragon"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "whipdashing",
+  "version": "${version}",
+  "accessWidener" : "whipdashing.accesswidener",
+  "name": "Whipdashing",
+  "description": "A Powerful Mobility Tool!",
+  "authors": [
+    "AmyMialee"
+  ],
+  "contact": {
+    "homepage": "https://github.com/AmyMialeeMods/whipdashing",
+    "issues": "https://github.com/AmyMialeeMods/whipdashing/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/whipdashing/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "amymialee.whipdashing.WhipdashingClient"
+    ],
+    "main": [
+      "amymialee.whipdashing.Whipdashing"
+    ],
+    "preLaunch": [
+      "amymialee.whipdashing.WhipdashingPreLaunch"
+    ]
+  },
+  "mixins": [
+    "whipdashing.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "http://discord.amymialee.xyz/"
+      }
+    }
+  }
+}

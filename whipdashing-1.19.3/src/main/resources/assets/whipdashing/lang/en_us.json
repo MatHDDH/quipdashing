@@ -1,0 +1,18 @@
+{
+  "item.whipdashing.whipdash" : "Whipdash",
+  "item.whipdashing.triplatch" : "Trip-Latch",
+  "item.whipdashing.sliplatch" : "Slip-Latch",
+  "entity.whipdashing.latch" : "Latch",
+  "key.whipdashing.whipdash" : "Use Equipped Whipdash",
+  "category.whipdashing" : "Whipdashing",
+  "whipdashing.subtitles.entity.hook.throw" : "Whipdash Thrown",
+  "whipdashing.subtitles.entity.hook.retrieve" : "Whipdash Recalled",
+  "whipdashing.subtitles.item.whipdash.swap" : "Whipdash Mode Swapped",
+  "whipdashing.subtitles.entity.hook.return" : "Whipdash Returned",
+  "whipdashing.whipdash.description.1": "%s %s to throw, %s to pull.",
+  "whipdashing.whipdash.description.hold": "Hold",
+  "whipdashing.whipdash.description.release": "release",
+  "whipdashing.whipdash.description.2": "Can pull light entities and items, will get",
+  "whipdashing.whipdash.description.3": "pulled to heavy entities and grapple latches.",
+  "whipdashing.whipdash.description.4": "Use %s to pull towards all entities."
+}
