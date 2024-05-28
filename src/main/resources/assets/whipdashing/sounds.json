@@ -1,32 +1,32 @@
 {
-  "whipdashing.entity.hook.throw": {
+  "entity.hook.throw": {
     "sounds": [
-      "entity/bobber/castfast"
+      "minecraft:entity/bobber/castfast"
     ],
     "subtitle": "whipdashing.subtitles.entity.hook.throw"
   },
-  "whipdashing.entity.hook.retrieve": {
+  "entity.hook.retrieve": {
     "sounds": [
       {
-        "name": "entity/bobber/retrieve1",
+        "name": "minecraft:entity/bobber/retrieve1",
         "pitch": 2.4
       },
       {
-        "name": "entity/bobber/retrieve2",
+        "name": "minecraft:entity/bobber/retrieve2",
         "pitch": 2.4
       }
     ],
     "subtitle": "whipdashing.subtitles.entity.hook.retrieve"
   },
-  "whipdashing.item.whipdash.swap": {
+  "item.whipdash.swap": {
     "sounds": [
-      "random/anvil_land"
+      "minecraft:random/anvil_land"
     ],
     "subtitle": "whipdashing.subtitles.item.whipdash.swap"
   },
-  "whipdashing.entity.hook.return": {
+  "entity.hook.return": {
     "sounds": [
-      "block/amethyst/place4"
+      "minecraft:block/amethyst/place4"
     ],
     "subtitle": "whipdashing.subtitles.entity.hook.return"
   }
