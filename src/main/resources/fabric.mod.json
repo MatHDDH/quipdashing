@@ -6,7 +6,7 @@
   "name": "Whipdashing",
   "description": "A Powerful Mobility Tool!",
   "authors": [
-    "AmyMialee"
+    "MatHD","AmyMialee"
   ],
   "contact": {
     "homepage": "https://github.com/AmyMialeeMods/whipdashing",
@@ -17,13 +17,13 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "amymialee.whipdashing.WhipdashingClient"
+      "mathd.whipdashing.WhipdashingClient"
     ],
     "main": [
-      "amymialee.whipdashing.Whipdashing"
+      "mathd.whipdashing.Whipdashing"
     ],
     "preLaunch": [
-      "amymialee.whipdashing.WhipdashingPreLaunch"
+      "mathd.whipdashing.WhipdashingPreLaunch"
     ]
   },
   "mixins": [
@@ -35,7 +35,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.discord": "http://discord.amymialee.xyz/"
+        "modmenu.discord": ""
       }
     }
   }
